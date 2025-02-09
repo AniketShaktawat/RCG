@@ -256,15 +256,25 @@ app.post('/signup',async(req,res)=>{
 });
 
 // LOGOUT 
-app.get("/logout", async (req, res, next) => {
-  try {
-    await req.logout();
+app.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
     req.flash("success", "You are Logged Out!");
     res.redirect("/signup");
-  } catch (err) {
-    next(err);
-  }
+  });
 });
+
+// app.get("/logout", async (req, res, next) => {
+//   try {
+//     await req.logout();
+//     req.flash("success", "You are Logged Out!");
+//     res.redirect("/signup");
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 // app.get('/logout',function(req,res){
 //   req.logout();
@@ -308,15 +318,40 @@ try {
 
   // 2. Update the arrays
   console.log(req.body.medications);
-  for (let m of req.body.medications) {
-    foundPatient.medicines.push(m.toString());
+  // Medications
+if (req.body.medications) {
+  if (Array.isArray(req.body.medications)) {
+    // Multiple entries => push each one
+    for (const m of req.body.medications) {
+      foundPatient.medicines.push(m);
+    }
+  } else {
+    // Single entry => push directly
+    foundPatient.medicines.push(req.body.medications);
   }
-  for (let r of req.body.reports) {
-    foundPatient.reports.push(r.toString());
+}
+
+// Reports
+if (req.body.reports) {
+  if (Array.isArray(req.body.reports)) {
+    for (const r of req.body.reports) {
+      foundPatient.reports.push(r);
+    }
+  } else {
+    foundPatient.reports.push(req.body.reports);
   }
-  for (let i of req.body.instructions) {
-    foundPatient.instructions.push(i.toString());
+}
+
+// Instructions
+if (req.body.instructions) {
+  if (Array.isArray(req.body.instructions)) {
+    for (const i of req.body.instructions) {
+      foundPatient.instructions.push(i);
+    }
+  } else {
+    foundPatient.instructions.push(req.body.instructions);
   }
+}
 
   // 3. Save the patient document
   await foundPatient.save();
