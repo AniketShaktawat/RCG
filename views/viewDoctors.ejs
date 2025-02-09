@@ -90,9 +90,20 @@
     object-fit: cover;
 }
 
+  .margin-class{
+    margin-left: 0;
+  }
+  .margin-top-class{
+    margin-top:20px;
+  }
+
+  .image-text{
+    position: absolute; top: 75%; left: 50%; transform: translate(-50%, -50%);
+  }
+
   </style>
   <body>
-    <div class="row">
+    <div class="row margin-class">
       <div class="wrapper px-2">
         <!-- Sidebar -->
         <nav id="sidebar"class="bg-light">
@@ -154,7 +165,7 @@
           <div class="row">
             <% for(var i =0; i<allDoctors.length; i++) { %>
             <div class="card mr-3">
-                <div class="row px-4">
+                <div class="row margin-top-class px-4">
                     <img src="/images/doctoravatar.png" alt="">
                     <div class="col">
                         <h4 style="color: rgb(21, 21, 148);">Dr. <%=allDoctors[i].username%></h4>
