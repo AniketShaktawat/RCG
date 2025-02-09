@@ -224,6 +224,7 @@
                   <th scope="col">Time</th>
                   <!-- <th scope="col">Amount</th> -->
                   <th scope="col">Status</th>
+                  <th scope="col">Report</th>
                 </tr>
               </thead>
               <tbody>
@@ -269,6 +270,14 @@
                     <%}%>
                     
                   </td>
+
+                  <td>
+                    <!-- Button to view the report -->
+                    <a href="/report/<%= user.consultation[i]%>">
+                        <button type="button" class="btn btn-outline-primary">View Report</button>
+                    </a>
+                  </td>
+
                   </tr>
                 <%}%>
               </tbody>

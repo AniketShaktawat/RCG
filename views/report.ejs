@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Report</title>
+    <link rel="stylesheet" href="/css/report.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Medical Report</h2>
+        <% if (message) { %>
+            <p class="alert alert-warning"><%= message %></p>
+        <% } else { %>
+            <div class="card">
+                <div class="card-body">
+                    <h5><strong>Patient Info</strong></h5>
+                    <p><strong>Age:</strong> <%= report.userInfo.age %></p>
+                    <p><strong>Gender:</strong> <%= report.userInfo.gender %></p>
+                    <p><strong>Weight:</strong> <%= report.userInfo.weight %> kg</p>
+                    <p><strong>Height:</strong> <%= report.userInfo.height %> cm</p>
+                    <p><strong>Email:</strong> <%= report.userInfo.email %></p>
+                    <hr>
+                    <h5><strong>Summary</strong></h5>
+                    <p style="white-space: pre-line;"><%= report.summary %></p>
+                </div>
+            </div>
+        <% } %>
+        <a href="javascript:history.back()" class="btn btn-secondary mt-3">Go Back</a>
+    </div>
+</body>
+</html>

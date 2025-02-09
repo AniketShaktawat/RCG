@@ -131,6 +131,34 @@ app.get('/chat',isLoggedIn,function(req,res){
   res.render('chat', {email:req.user.email});
 });
 
+const ChatSummary = require('./models/chat'); // Assuming the medical summary model is named ChatSummary
+
+app.get('/report/:username', async (req, res) => {
+    try {
+        const username = req.params.username;
+
+        // Find the user by username to get their email
+        const user = await User.findOne({ username: username });
+
+        if (!user) {
+            return res.render('report', { report: null, message: "User not found." });
+        }
+
+        // Now use the email to fetch the medical report
+        const report = await ChatSummary.findOne({ "userInfo.email": user.email });
+
+        if (!report) {
+            return res.render('report', { report: null, message: "No report found for this user." });
+        }
+
+        res.render('report', { report, message: null });
+    } catch (error) {
+        console.error("Error fetching report:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+
 app.get('/',(req,res)=>{
   var currentTime=new Date().getHours();
  console.log(`Current time is ${currentTime}`);
