@@ -256,11 +256,21 @@ app.post('/signup',async(req,res)=>{
 });
 
 // LOGOUT 
-app.get('/logout',function(req,res){
-  req.logout();
-  req.flash("success", "You are Logged Out!");
-  res.redirect("/signup");
+app.get("/logout", async (req, res, next) => {
+  try {
+    await req.logout();
+    req.flash("success", "You are Logged Out!");
+    res.redirect("/signup");
+  } catch (err) {
+    next(err);
+  }
 });
+
+// app.get('/logout',function(req,res){
+//   req.logout();
+//   req.flash("success", "You are Logged Out!");
+//   res.redirect("/signup");
+// });
 
 //DOCTOR CHECKOUT PAGE
 app.get('/checkoutdoctor',(req,res)=>{
@@ -505,11 +515,22 @@ app.get('/vc/:id',async (req,res)=>{
 })
 
 //PATIENT CHECKOUT- FEEDBACK AND PAYMENT
-app.get('/patientcheckout/:id',function(req,res){
-User.findById(req.params.id,function(err,data){
-  res.render('patient_checkout',{data:data});
-});
-    
+app.get('/patientcheckout/:id',async function(req,res){
+// User.findById(req.params.id,function(err,data){
+//   res.render('patient_checkout',{data:data});
+// });
+try {
+  const data = await User.findById(req.params.id);
+  if (!data) {
+    req.flash("error", "No such patient/record found");
+    return res.redirect("/");
+  }
+  res.render("patient_checkout", { data });
+} catch (err) {
+  console.error(err);
+  req.flash("error", "Something went wrong");
+  res.redirect("/");
+}    
 });
 
 app.post('/patientcheckout2/:id',async function(req,res){
@@ -522,7 +543,8 @@ app.post('/patientcheckout2/:id',async function(req,res){
     let temp = precise(Average(foundDoctor.Rating));
     foundDoctor.finalRating = temp;
     await foundDoctor.save();
-    res.render('checkout', { appointment: foundDoctor, amount: amount });
+    res.redirect("/home");
+    //res.render('checkout', { appointment: foundDoctor, amount: amount });
   } catch (err) {
     console.error("Error:", err);
     res.redirect('/');

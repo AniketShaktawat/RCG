@@ -106,7 +106,6 @@
       color: white;
     }
    
-    
   </style>
   <body>
     <div class="row">
@@ -131,17 +130,8 @@
               <li class="active">
                 <a href="/chat">Start AI Consultation</a>
               </li>
-              <li>
-                <a href="#">Book Lab tests</a>
-              </li>
-              <li>
-                <a href="/medicalstores" aria-expanded="false">Buy Medicines</a>
-              </li>
                 <li>
                 <a href="/tpz">My Prescriptions</a>
-              </li>
-              <li>
-                <a href="#">About Us</a>
               </li>
               <li class="" id="logout">
                 <a href="/logout">Logout</a>
@@ -224,7 +214,11 @@
                   <th scope="col">Time</th>
                   <!-- <th scope="col">Amount</th> -->
                   <th scope="col">Status</th>
-                  <th scope="col">Report</th>
+
+                  <% if (user.type=="doctor") { %>
+                    <th scope="col">Report</th>
+                  <% } %>
+                 
                 </tr>
               </thead>
               <tbody>
@@ -271,12 +265,15 @@
                     
                   </td>
 
-                  <td>
-                    <!-- Button to view the report -->
-                    <a href="/report/<%= user.consultation[i]%>">
+                  <% if (user.type=="doctor") { %>
+                    <td>
+                      <!-- Button to view the report -->
+                      <a href="/report/<%= user.consultation[i] %>">
                         <button type="button" class="btn btn-outline-primary">View Report</button>
-                    </a>
-                  </td>
+                      </a>
+                    </td>
+                  <% } %>
+                  
 
                   </tr>
                 <%}%>
