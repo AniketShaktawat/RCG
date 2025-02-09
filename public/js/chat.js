@@ -19,7 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
             age: parseInt(formData.get('age')),
             gender: formData.get('gender'),
             weight: parseFloat(formData.get('weight')),
-            height: parseInt(formData.get('height'))
+            height: parseInt(formData.get('height')),
+            email:formData.get('email')
         };
         userInfoModal.hide();
 

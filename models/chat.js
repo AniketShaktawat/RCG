@@ -4,7 +4,8 @@ const userInfoSchema = new mongoose.Schema({
     age: Number,
     gender: String,
     weight: Number,
-    height: Number
+    height: Number,
+    email: String
 });
 
 const chatSummarySchema = new mongoose.Schema({

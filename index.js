@@ -128,7 +128,7 @@ app.post('/api/summary', chatController.generateSummary);
 //DEFAULT ROUTE
 
 app.get('/chat',isLoggedIn,function(req,res){
-  res.render('chat');
+  res.render('chat', {email:req.user.email});
 });
 
 app.get('/',(req,res)=>{
@@ -249,7 +249,7 @@ date=req.user.appointment_dates[i];
   res.render('checkout_doctor',{patient,date});
 });
 
-app.post('/checkoutdoctor',(req,res)=>{
+app.post('/checkoutdoctor',async (req,res)=>{
   var patient_id;
 console.log(req.body);
 console.log(req.user);
@@ -260,44 +260,68 @@ patient_id=req.user.doctorArray[i];
 break;
   }
 }
-User.findById(patient_id,function(err,foundPatient){
-console.log(req.body.medications);
-for(let m of req.body.medications){
-  foundPatient.medicines.push(m.toString());
-}
-for(let r of req.body.reports){
-  foundPatient.reports.push(r.toString());
-}
-for(let i of req.body.instructions){
-  foundPatient.instructions.push(i.toString());
-}
-  foundPatient.save();
+
+try {
+  // 1. Fetch patient by ID without a callback
+  const foundPatient = await User.findById(patient_id);
+  if (!foundPatient) {
+    throw new Error("Patient not found");
+  }
+
+  // 2. Update the arrays
+  console.log(req.body.medications);
+  for (let m of req.body.medications) {
+    foundPatient.medicines.push(m.toString());
+  }
+  for (let r of req.body.reports) {
+    foundPatient.reports.push(r.toString());
+  }
+  for (let i of req.body.instructions) {
+    foundPatient.instructions.push(i.toString());
+  }
+
+  // 3. Save the patient document
+  await foundPatient.save();
   console.log(foundPatient);
-  ejs.renderFile(path.join(__dirname, './views/', "tpz.ejs"), {patient: foundPatient,contact:req.user.phNumber,clinic:req.user.address,degree:req.user.degree,doctName:req.user.username,date:"07/04/2021"}, (err, data) => {
-    if (err) {
-          res.send(err);
-    } else {
-        let options = {
-            "height": "11.25in",
-            "width": "8.5in",
-            "header": {
-                "height": "20mm"
-            },
-            "footer": {
-                "height": "20mm",
-            },
-        };
-        pdf.create(data, options).toFile("Prescription.pdf", function (err, data) {
-            if (err) {
-              console.log("Error Sid");
-                res.send(err);
-            } else {
-                res.redirect('/home');//LETS FINISH WITH RATING FIRST
-            }
-        });
-    }
-});
-});
+
+  // 4. Render EJS (this part remains callback-based by default)
+  // ejs.renderFile(
+  //   path.join(__dirname, "./views/", "tpz.ejs"),
+  //   {
+  //     patient: foundPatient,
+  //     contact: req.user.phNumber,
+  //     clinic: req.user.address,
+  //     degree: req.user.degree,
+  //     doctName: req.user.username,
+  //     date: "07/04/2021",
+  //   },
+  //   (err, data) => {
+  //     if (err) {
+  //       return res.send(err);
+  //     }
+
+  //     // 5. Convert rendered HTML to PDF
+  //     let options = {
+  //       height: "11.25in",
+  //       width: "8.5in",
+  //       header: { height: "20mm" },
+  //       footer: { height: "20mm" },
+  //     };
+
+  //     pdf.create(data, options).toFile("Prescription.pdf", (err, _) => {
+  //       if (err) {
+  //         console.log("Error Sid");
+  //         return res.send(err);
+  //       }
+  //       // 6. Redirect on success
+  //       res.redirect("/home");
+  //     });
+  //   }
+  // );
+} catch (error) {
+  console.error(error);
+  res.status(500).send(error.message || "Server Error");
+}
 });
 
 //BUY MEDICINES PAGE
