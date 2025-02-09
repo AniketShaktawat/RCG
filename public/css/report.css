@@ -1,0 +1,93 @@
+/* General Styles */
+body {
+    font-family: 'Raleway', sans-serif;
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Container */
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+h2 {
+    text-align: center;
+    color: rgb(21, 21, 148);
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Report Card */
+.card {
+    border-radius: 10px;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Report Titles */
+.card h5 {
+    font-weight: bold;
+    color: rgb(19, 99, 19);
+    margin-bottom: 10px;
+}
+
+/* Report Text */
+.card p {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Alerts */
+.alert {
+    border-radius: 5px;
+    padding: 10px;
+}
+
+/* Go Back Button */
+.btn-secondary {
+    display: block;
+    width: 150px;
+    margin: 20px auto;
+    background: rgb(29, 151, 29);
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-secondary:hover {
+    background: green;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    .btn-secondary {
+        width: 100%;
+    }
+}
