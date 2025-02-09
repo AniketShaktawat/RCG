@@ -33,7 +33,7 @@
     }
     .tableFixHead {
         overflow-y: auto;
-        height: 175px;
+        height: auto;
       }
       .tableFixHead thead th {
         position: sticky;
@@ -105,10 +105,15 @@
     thead {
       color: white;
     }
+
+    .margin-class{
+      margin-left: 0;
+      margin-top : 10px;
+    }
    
   </style>
   <body>
-    <div class="row">
+    <div class="row margin-class">
       <div class="wrapper px-2">
         <!-- Sidebar -->
         <nav id="sidebar" class="bg-light">
@@ -127,7 +132,7 @@
               <li class="active">
                 <a href="/home" aria-expanded="false">Home</a>
               </li>
-              <li class="active">
+              <li>
                 <a href="/chat">Start AI Consultation</a>
               </li>
                 <li>
@@ -185,7 +190,7 @@
           <%}%>
          </span>
         </h2>
-        <h6 style="color: rgb(21, 21, 148);">Upcoming Appointments</h6>
+        <h6 style="color: rgb(21, 148, 25);">Upcoming Appointments</h6>
         <hr />
         <%if(user.consultation.length==0){%>
           <%if(user.type=="doctor"){%>
@@ -282,7 +287,7 @@
           </div>
          
         <%}%>
-        <h6 style="color: rgb(21, 21, 148);">Live News</h6>
+        
       
       </div>
     <%if(currentUser.type=="patient"){%>
